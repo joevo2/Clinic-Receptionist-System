@@ -1,7 +1,4 @@
-<%@page import="java.text.DateFormat"%>
 <%@page import="java.sql.*"%>
-<%@ page import="java.io.*,java.util.Locale" %>
-<%@ page import="java.text.DateFormat,java.util.Date" %>
 <% 
     /*For page tab/button/menu active state */
     session.setAttribute("pagetitle","Home");
@@ -11,13 +8,6 @@
     try {
     Connection con = DriverManager.getConnection("jdbc:mysql://localhost:3306/clinic_receptionist", "root", "");
     Statement myStatement = con.createStatement();  
-    
-    //get the locale date
-    Locale locale = request.getLocale(); //request for locale date
-    String date = DateFormat.getDateTimeInstance(
-                              DateFormat.FULL, 
-                              DateFormat.SHORT, 
-                              locale).format(new Date( ));
 
 %>
 <!doctype html>
@@ -30,15 +20,18 @@
 		<jsp:include page="navbar.jsp"></jsp:include>
 		<div class="row">
 			<div class="col-md-12 text-center">
-                        <h3><% out.println(date); %></h3>    
-			
+			<h3>Tuesday, November 17, 2014</h3>
 		</div>
 		<div class="col-md-1"></div>
 		<div class="col-md-5">
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h2 class="panel-title"><span class="glyphicon glyphicon-calendar"></span>&nbsp;&nbsp;Today's appointments</h2>
-				</div>                                
+				</div>
+                                 <% 
+                            //The date need to change according to current date
+                            ResultSet ResultSet = myStatement.executeQuery("SELECT main_table.firstname from main_table, appointment, schedule where appointment.schedule_ID = Schedule.Schedule_ID and Schedule.USer_ID = main_table.user_ID");                                                     
+                                                %>
 				<div class="panel-body">
 					<table class="table table-hover table-condensed">
 						<thead>
@@ -64,10 +57,11 @@
 			<div class="panel panel-primary">
 				<div class="panel-heading">
 					<h2 class="panel-title"><span class="glyphicon glyphicon-user"></span>&nbsp;&nbsp;Today's staff on duty</h2>
-				</div> 
-                              <% 
+				</div>
+                            <% 
                             //The date need to change according to current date
-                            ResultSet myResultSet = myStatement.executeQuery("SELECT main_table.FirstName, main_table.LastName, schedule.User_ID FROM main_table, schedule WHERE schedule.Date =  '2014-01-12' AND schedule.User_ID = main_table.User_ID");                            
+                            ResultSet myResultSet = myStatement.executeQuery("SELECT main_table.FirstName, main_table.LastName, schedule.User_ID FROM main_table, schedule WHERE schedule.Date =  '2014-01-12' AND schedule.User_ID = main_table.User_ID");                                                     
+                            
                             %>
 				<div class="panel-body">
 					<table class="table table-hover table-condensed">
@@ -79,20 +73,23 @@
                                                        
 							</tr>
 						</thead>
-						<tbody> 
-                                                    <% while(myResultSet.next()) { %>
+						<tbody>                                                    
 							<tr>
                                                             <td>
-                                                                <%= myResultSet.getString("User_ID")%>                                                               
+                                                                haha
+                                                                
                                                             </td>
                                                             <td>
-                                                                <%= myResultSet.getString("FirstName")%>                                                                
+                                                                haha
+                                                                
                                                             </td>
                                                              <td>
-                                                                <%= myResultSet.getString("LastName")%>                                                                
-                                                            </td>                                                
+                                                                 haha
+                                                                
+                                                            </td>
+                                                
 							</tr>	
-                                                    <% } %>    
+                                                        <%}%>
 						</tbody>
 					</table>
 				</div>
